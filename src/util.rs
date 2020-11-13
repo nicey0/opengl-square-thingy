@@ -1,3 +1,4 @@
+use super::conf::*;
 use glium::*;
 
 pub const GLS: f32 = 2.0;
@@ -39,12 +40,25 @@ impl Shape {
         indices: impl Into<index::IndicesSource<'a>>,
         program: &Program,
     ) {
+        // logical coor -> opengl coor
+        let ax = (GLS / WIDTH) * self.x - GLS / 2.0;
+        let ay = (GLS / HEIGHT) * self.y - GLS / 2.0;
+        let aw = (GLS / WIDTH) * self.w;
+        let ah = (GLS / HEIGHT) * self.h;
+
         target
             .draw(
                 &self.vbuf,
                 indices,
                 program,
-                uniform! {},
+                &uniform! {
+                    matrix: [
+                       [aw,   0.0,  0.0,  0.0],
+                       [0.0,  ah,   0.0,  0.0],
+                       [0.0,  0.0,  0.0,  0.0],
+                       [ax,  ay,  0.0,  1.0],
+                    ]
+                },
                 &Default::default(),
             )
             .unwrap();
