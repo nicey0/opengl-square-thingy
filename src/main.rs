@@ -39,8 +39,7 @@ fn main() {
     let indices = index::NoIndices(index::PrimitiveType::TriangleStrip);
     let program = Program::from_source(&display, &vs, &fs, None).unwrap();
 
-    square.print();
-
+    //square.print();
     event_loop.run(move |ev, _, control_flow| {
         let next_frame_time = Instant::now() + Duration::from_nanos(16_666_667);
         *control_flow = glutin::event_loop::ControlFlow::WaitUntil(next_frame_time);
@@ -59,8 +58,8 @@ fn main() {
         //
         // update
         //
-        square.x += 0.05;
-        square.y += 0.05;
+        square.x += 0.1;
+        square.y += 0.1;
 
         //
         // render
