@@ -26,13 +26,13 @@ fn main() {
     let fs = fs::read_to_string("src/shaders/fs.glsl").expect("Unable to read file");
 
     // shape
-    let square = Shape::new(
+    let mut square = Shape::new(
         &display,
         &vec![[-0.5, 0.5], [0.5, 0.5], [-0.5, -0.5], [0.5, -0.5]],
         0.0,
         0.0,
-        200.0,
-        200.0,
+        20.0,
+        20.0,
     );
 
     // rendering stuf
@@ -42,21 +42,9 @@ fn main() {
     square.print();
 
     event_loop.run(move |ev, _, control_flow| {
-        //
-        // update
-        //
-
-        //
-        // render
-        //
-        let mut target: Frame = display.draw();
-        target.clear_color(0.0, 0.0, 0.0, 1.0);
-        square.draw(&mut target, &indices, &program);
-        target.finish().unwrap();
-
-        // event loop stuff
         let next_frame_time = Instant::now() + Duration::from_nanos(16_666_667);
         *control_flow = glutin::event_loop::ControlFlow::WaitUntil(next_frame_time);
+        // events
         match ev {
             Event::WindowEvent { event, .. } => match event {
                 WindowEvent::CloseRequested => {
@@ -67,5 +55,19 @@ fn main() {
             },
             _ => {}
         }
+
+        //
+        // update
+        //
+        square.x += 0.05;
+        square.y += 0.05;
+
+        //
+        // render
+        //
+        let mut target: Frame = display.draw();
+        target.clear_color(0.0, 0.0, 0.0, 1.0);
+        square.draw(&mut target, &indices, &program);
+        target.finish().unwrap();
     });
 }

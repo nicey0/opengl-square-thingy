@@ -18,10 +18,10 @@ impl Vertex {
 
 pub struct Shape {
     vbuf: VertexBuffer<Vertex>,
-    w: f32,
-    h: f32,
-    x: f32,
-    y: f32,
+    pub w: f32,
+    pub h: f32,
+    pub x: f32,
+    pub y: f32,
 }
 impl Shape {
     pub fn new(display: &Display, v: &Vec<Point>, x: f32, y: f32, w: f32, h: f32) -> Self {
