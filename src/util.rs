@@ -15,6 +15,42 @@ impl Vertex {
     }
 }
 
+pub struct Shape {
+    vbuf: VertexBuffer<Vertex>,
+    x: f32,
+    y: f32,
+    w: f32,
+    h: f32,
+}
+impl Shape {
+    pub fn new(display: &Display, v: &Vec<Point>, x: f32, y: f32, w: f32, h: f32) -> Self {
+        Self {
+            vbuf: make_shape(display, v),
+            x,
+            y,
+            w,
+            h,
+        }
+    }
+
+    pub fn draw<'a>(
+        &self,
+        target: &mut Frame,
+        indices: impl Into<index::IndicesSource<'a>>,
+        program: &Program,
+    ) {
+        target
+            .draw(
+                &self.vbuf,
+                indices,
+                program,
+                uniform! {},
+                &Default::default(),
+            )
+            .unwrap();
+    }
+}
+
 pub fn make_shape(display: &Display, v: &Vec<Point>) -> VertexBuffer<Vertex> {
     let mut shape: Vec<Vertex> = Vec::new();
     for p in v.iter() {
