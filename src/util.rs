@@ -18,19 +18,21 @@ impl Vertex {
 
 pub struct Shape {
     vbuf: VertexBuffer<Vertex>,
-    x: f32,
-    y: f32,
     w: f32,
     h: f32,
+    x: f32,
+    y: f32,
 }
 impl Shape {
     pub fn new(display: &Display, v: &Vec<Point>, x: f32, y: f32, w: f32, h: f32) -> Self {
         Self {
             vbuf: make_shape(display, v),
-            x,
-            y,
             w,
             h,
+            x: x + (w / 2.0),
+            y: y + (h / 2.0),
+            //x: x + (-w + w / 2.0), // move from center to bottom left
+            //y: y + (h / 2.0),
         }
     }
 
@@ -62,6 +64,10 @@ impl Shape {
                 &Default::default(),
             )
             .unwrap();
+    }
+
+    pub fn print(&self) {
+        println!("x: {}, y: {}\nw: {}, h: {}", self.x, self.y, self.w, self.h);
     }
 }
 
