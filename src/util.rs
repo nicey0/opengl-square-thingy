@@ -15,7 +15,7 @@ impl Vertex {
     }
 }
 
-pub fn make_vertex_buffer(display: &Display, v: Vec<Point>) -> VertexBuffer<Vertex> {
+pub fn make_shape(display: &Display, v: &Vec<Point>) -> VertexBuffer<Vertex> {
     let mut shape: Vec<Vertex> = Vec::new();
     for p in v.iter() {
         shape.push(Vertex::new(p[0], p[1]));
