@@ -54,12 +54,13 @@ impl Shape {
                 indices,
                 program,
                 &uniform! {
+                    col: [1.0f32, 1.0f32, 0.0],
                     matrix: [
                        [aw,   0.0,  0.0,  0.0],
                        [0.0,  ah,   0.0,  0.0],
                        [0.0,  0.0,  0.0,  0.0],
                        [ax,  ay,  0.0,  1.0],
-                    ]
+                    ],
                 },
                 &Default::default(),
             )
