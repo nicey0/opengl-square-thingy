@@ -62,6 +62,17 @@ fn main() {
             square.x += SPEED;
         }
 
+        if square.x < -square.w {
+            square.x = WIDTH;
+        } else if square.x >= WIDTH {
+            square.x = -square.w
+        }
+        if square.y < -square.h {
+            square.y = HEIGHT;
+        } else if square.y >= HEIGHT {
+            square.y = -square.h
+        }
+
         //
         // render
         //

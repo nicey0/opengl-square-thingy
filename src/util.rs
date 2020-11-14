@@ -29,10 +29,8 @@ impl Shape {
             vbuf: make_shape(display, v),
             w,
             h,
-            x: x + (w / 2.0),
-            y: y + (h / 2.0),
-            //x: x + (-w + w / 2.0), // move from center to bottom left
-            //y: y + (h / 2.0),
+            x,
+            y,
         }
     }
 
@@ -43,8 +41,8 @@ impl Shape {
         program: &Program,
     ) {
         // logical coor -> opengl coor
-        let ax = (GLS / WIDTH) * self.x - GLS / 2.0;
-        let ay = (GLS / HEIGHT) * self.y - GLS / 2.0;
+        let ax = (GLS / WIDTH) * (self.x + self.w / 2.0) - GLS / 2.0;
+        let ay = (GLS / HEIGHT) * (self.y + self.h / 2.0) - GLS / 2.0;
         let aw = (GLS / WIDTH) * self.w;
         let ah = (GLS / HEIGHT) * self.h;
 
