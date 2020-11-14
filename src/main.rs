@@ -1,7 +1,10 @@
 extern crate glium;
 
 use glium::glutin::event::*;
-use glium::{glutin, index::NoIndices, index::PrimitiveType, Display, Frame, Program, Surface};
+use glium::{
+    draw_parameters::PolygonMode, glutin, index::NoIndices, index::PrimitiveType, Display,
+    DrawParameters, Frame, Program, Surface,
+};
 
 use std::fs;
 use std::time::{Duration, Instant};
@@ -42,6 +45,11 @@ fn main() {
     // rendering stuf
     let indices = NoIndices(PrimitiveType::TriangleStrip);
     let program = Program::from_source(&display, &vs, &fs, None).unwrap();
+    let params = DrawParameters {
+        polygon_mode: PolygonMode::Line,
+        line_width: Some(1.0),
+        ..Default::default()
+    };
 
     // event loop
     event_loop.run(move |ev, _, control_flow| {
@@ -80,7 +88,7 @@ fn main() {
         //
         let mut target: Frame = display.draw();
         target.clear_color(0.0, 0.0, 0.0, 1.0);
-        square.draw(&mut target, &indices, &program);
+        square.draw(&mut target, &indices, &program, &params);
         target.finish().unwrap();
 
         // events

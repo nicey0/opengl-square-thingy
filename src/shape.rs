@@ -1,6 +1,8 @@
 use super::conf::*;
 use super::util::{Point, Vertex, GLS};
-use glium::{index::IndicesSource, uniform, Display, Frame, Program, Surface, VertexBuffer};
+use glium::{
+    index::IndicesSource, uniform, Display, DrawParameters, Frame, Program, Surface, VertexBuffer,
+};
 
 pub struct Shape {
     vbuf: VertexBuffer<Vertex>,
@@ -25,6 +27,7 @@ impl Shape {
         target: &mut Frame,
         indices: impl Into<IndicesSource<'a>>,
         program: &Program,
+        params: &DrawParameters,
     ) {
         // logical coor -> opengl coor
         let ax = (GLS / WIDTH) * (self.x + self.w / 2.0) - GLS / 2.0;
@@ -46,7 +49,7 @@ impl Shape {
                        [ax,  ay,  0.0,  1.0],
                     ],
                 },
-                &Default::default(),
+                params,
             )
             .unwrap();
     }
