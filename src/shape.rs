@@ -10,6 +10,7 @@ pub struct Shape {
     pub h: f32,
     pub x: f32,
     pub y: f32,
+    pub r: f32,
 }
 impl Shape {
     pub fn new(display: &Display, v: &Vec<Point>, x: f32, y: f32, w: f32, h: f32) -> Self {
@@ -19,6 +20,7 @@ impl Shape {
             h,
             x,
             y,
+            r: 0.0,
         }
     }
 
