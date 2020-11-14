@@ -64,11 +64,9 @@ fn main() {
         // update
         //
         square.y += yspd;
-        if inputs.w {
-            if grounded {
-                yspd = SPEED * 5.0;
-                grounded = false;
-            }
+        if inputs.w && grounded {
+            yspd = SPEED * 5.0;
+            grounded = false;
         }
         if !grounded {
             yspd -= 0.01;
