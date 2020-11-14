@@ -78,3 +78,20 @@ pub fn make_shape(display: &Display, v: &Vec<Point>) -> VertexBuffer<Vertex> {
     }
     VertexBuffer::new(display, &shape).unwrap()
 }
+
+pub struct Input {
+    pub w: bool,
+    pub a: bool,
+    pub s: bool,
+    pub d: bool,
+}
+impl Input {
+    pub fn new() -> Self {
+        Self {
+            w: false,
+            a: false,
+            s: false,
+            d: false,
+        }
+    }
+}
