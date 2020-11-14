@@ -1,6 +1,8 @@
 use glium::implement_vertex;
+use std::f32::consts::PI;
 
 pub const GLS: f32 = 2.0;
+pub const RADTODEG: f32 = 2.0 * (PI / 360.0);
 
 pub type Point = [f32; 2];
 
