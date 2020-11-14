@@ -80,6 +80,7 @@ fn main() {
         target.clear_color(0.0, 0.0, 0.0, 1.0);
         square.draw(&mut target, &indices, &program);
         target.finish().unwrap();
+
         // events
         match ev {
             Event::WindowEvent { event, .. } => match event {
