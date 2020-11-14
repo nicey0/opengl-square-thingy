@@ -41,32 +41,10 @@ fn main() {
     let indices = index::NoIndices(index::PrimitiveType::TriangleStrip);
     let program = Program::from_source(&display, &vs, &fs, None).unwrap();
 
+    // event loop
     event_loop.run(move |ev, _, control_flow| {
         let next_frame_time = Instant::now() + Duration::from_nanos(16_666_667);
         *control_flow = glutin::event_loop::ControlFlow::WaitUntil(next_frame_time);
-        // events
-        match ev {
-            Event::WindowEvent { event, .. } => match event {
-                WindowEvent::CloseRequested => {
-                    *control_flow = glutin::event_loop::ControlFlow::Exit;
-                    return;
-                }
-                WindowEvent::KeyboardInput { input, .. } => {
-                    match (input.state, input.virtual_keycode) {
-                        (s, Some(k)) => match k {
-                            VirtualKeyCode::W => inputs.w = s == ElementState::Pressed,
-                            VirtualKeyCode::A => inputs.a = s == ElementState::Pressed,
-                            VirtualKeyCode::S => inputs.s = s == ElementState::Pressed,
-                            VirtualKeyCode::D => inputs.d = s == ElementState::Pressed,
-                            _ => {}
-                        },
-                        _ => {}
-                    }
-                }
-                _ => return,
-            },
-            _ => {}
-        }
 
         //
         // update
@@ -91,5 +69,28 @@ fn main() {
         target.clear_color(0.0, 0.0, 0.0, 1.0);
         square.draw(&mut target, &indices, &program);
         target.finish().unwrap();
+        // events
+        match ev {
+            Event::WindowEvent { event, .. } => match event {
+                WindowEvent::CloseRequested => {
+                    *control_flow = glutin::event_loop::ControlFlow::Exit;
+                    return;
+                }
+                WindowEvent::KeyboardInput { input, .. } => {
+                    match (input.state, input.virtual_keycode) {
+                        (s, Some(k)) => match k {
+                            VirtualKeyCode::W => inputs.w = s == ElementState::Pressed,
+                            VirtualKeyCode::A => inputs.a = s == ElementState::Pressed,
+                            VirtualKeyCode::S => inputs.s = s == ElementState::Pressed,
+                            VirtualKeyCode::D => inputs.d = s == ElementState::Pressed,
+                            _ => {}
+                        },
+                        _ => {}
+                    }
+                }
+                _ => return,
+            },
+            _ => {}
+        }
     });
 }
