@@ -32,7 +32,8 @@ fn main() {
     // shape
     let mut square = Shape::new(
         &display,
-        &vec![[-0.5, 0.5], [0.5, 0.5], [-0.5, -0.5], [0.5, -0.5]],
+        //&vec![[-0.5, 0.5], [0.5, 0.5], [-0.5, -0.5], [0.5, -0.5]],
+        &vec![[0.0, 2.0], [1.0, 0.0], [-1.0, 0.0], [0.0, -0.75]],
         0.0,
         0.0,
         20.0,
@@ -72,15 +73,15 @@ fn main() {
             square.x += SPEED;
         }
 
-        if square.x < -square.w {
+        if square.x < -square.w * 2.0 {
             square.x = WIDTH;
         } else if square.x >= WIDTH {
-            square.x = -square.w
+            square.x = -square.w * 2.0
         }
-        if square.y < -square.h {
+        if square.y < -square.h * 2.0 {
             square.y = HEIGHT;
         } else if square.y >= HEIGHT {
-            square.y = -square.h
+            square.y = -square.h * 2.0
         }
 
         //
