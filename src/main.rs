@@ -1,14 +1,16 @@
 extern crate glium;
 
 use glium::glutin::event::*;
-use glium::*;
+use glium::{glutin, index::NoIndices, index::PrimitiveType, Display, Frame, Program, Surface};
 
 use std::fs;
 use std::time::{Duration, Instant};
 
 mod conf;
+mod shape;
 mod util;
 use conf::*;
+use shape::*;
 use util::*;
 
 fn main() {
@@ -19,7 +21,7 @@ fn main() {
         .with_inner_size(glutin::dpi::LogicalSize::new(WIDTH, HEIGHT))
         .with_resizable(false);
     let cb = glutin::ContextBuilder::new();
-    let display = glium::Display::new(wb, cb, &event_loop).unwrap();
+    let display = Display::new(wb, cb, &event_loop).unwrap();
 
     // input
     let mut inputs = Input::new();
@@ -38,7 +40,7 @@ fn main() {
     let vs = fs::read_to_string("src/shaders/vs.glsl").expect("Unable to read file");
     let fs = fs::read_to_string("src/shaders/fs.glsl").expect("Unable to read file");
     // rendering stuf
-    let indices = index::NoIndices(index::PrimitiveType::TriangleStrip);
+    let indices = NoIndices(PrimitiveType::TriangleStrip);
     let program = Program::from_source(&display, &vs, &fs, None).unwrap();
 
     // event loop
