@@ -24,6 +24,10 @@ impl Shape {
         }
     }
 
+    pub fn rotate(&mut self, r: f32) {
+        self.r += r;
+    }
+
     pub fn draw<'a>(
         &self,
         target: &mut Frame,

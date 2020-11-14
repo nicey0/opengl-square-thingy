@@ -32,12 +32,11 @@ fn main() {
     // shape
     let mut square = Shape::new(
         &display,
-        //&vec![[-0.5, 0.5], [0.5, 0.5], [-0.5, -0.5], [0.5, -0.5]],
-        &vec![[0.0, 2.0], [1.0, 0.0], [-1.0, 0.0], [0.0, -0.75]],
+        &vec![[-0.5, 0.5], [0.5, 0.5], [-0.5, -0.5], [0.5, -0.5]],
         0.0,
         0.0,
-        10.0,
-        10.0,
+        25.0,
+        25.0,
     );
 
     // shaders
@@ -47,12 +46,14 @@ fn main() {
     let indices = NoIndices(PrimitiveType::TriangleStrip);
     let program = Program::from_source(&display, &vs, &fs, None).unwrap();
     let params = DrawParameters {
-        polygon_mode: PolygonMode::Line,
-        line_width: Some(1.0),
+        //polygon_mode: PolygonMode::Line,
+        //line_width: Some(1.0),
         ..Default::default()
     };
 
     // event loop
+    let mut grounded = false;
+    let mut yspd = 0.0;
     event_loop.run(move |ev, _, control_flow| {
         let next_frame_time = Instant::now() + Duration::from_nanos(16_666_667);
         *control_flow = glutin::event_loop::ControlFlow::WaitUntil(next_frame_time);
@@ -60,26 +61,35 @@ fn main() {
         //
         // update
         //
+        square.y += yspd;
         if inputs.w {
-            square.y += SPEED;
+            if grounded {
+                yspd = SPEED * 5.0;
+                grounded = false;
+            }
         }
+        if !grounded {
+            yspd -= 0.01;
+        }
+        //if inputs.s {
+        //square.y -= SPEED;
+        //}
+
         if inputs.a {
             square.x -= SPEED;
-        }
-        if inputs.s {
-            square.y -= SPEED;
         }
         if inputs.d {
             square.x += SPEED;
         }
-
+        // collisions
         if square.x < -square.w * 2.0 {
             square.x = WIDTH;
         } else if square.x >= WIDTH {
             square.x = -square.w * 2.0
         }
-        if square.y < -square.h * 2.0 {
-            square.y = HEIGHT;
+        if square.y < 0.0 {
+            grounded = true;
+            square.y = 0.0;
         } else if square.y >= HEIGHT {
             square.y = -square.h * 2.0
         }
