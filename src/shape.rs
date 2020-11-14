@@ -34,6 +34,7 @@ impl Shape {
         indices: impl Into<IndicesSource<'a>>,
         program: &Program,
         params: &DrawParameters,
+        col: [f32; 3],
     ) {
         // logical coor -> opengl coor
         let ax = (GLS / WIDTH) * (self.x + self.w / 2.0) - GLS / 2.0;
@@ -47,7 +48,7 @@ impl Shape {
                 indices,
                 program,
                 &uniform! {
-                    col: [1.0f32, 1.0f32, 0.0],
+                    col: col,
                     matrix: [
                        [aw,   0.0,  0.0,  0.0],
                        [0.0,  ah,   0.0,  0.0],

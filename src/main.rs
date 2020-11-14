@@ -39,6 +39,8 @@ fn main() {
         25.0,
     );
 
+    let mut bullets: Vec<Shape> = Vec::new();
+
     // shaders
     let vs = fs::read_to_string("src/shaders/vs.glsl").expect("Unable to read file");
     let fs = fs::read_to_string("src/shaders/fs.glsl").expect("Unable to read file");
@@ -71,9 +73,6 @@ fn main() {
         if !grounded {
             yspd -= 0.01;
         }
-        //if inputs.s {
-        //square.y -= SPEED;
-        //}
 
         if inputs.a {
             square.x -= SPEED;
@@ -81,11 +80,15 @@ fn main() {
         if inputs.d {
             square.x += SPEED;
         }
+        for b in bullets.iter_mut() {
+            b.x += 1.0;
+        }
+        bullets.retain(|b| b.x < WIDTH);
         // collisions
         if square.x < -square.w * 2.0 {
             square.x = WIDTH;
         } else if square.x >= WIDTH {
-            square.x = -square.w * 2.0
+            square.x = -square.w * 2.0;
         }
         if square.y < 0.0 {
             grounded = true;
@@ -99,7 +102,10 @@ fn main() {
         //
         let mut target: Frame = display.draw();
         target.clear_color(0.0, 0.0, 0.0, 1.0);
-        square.draw(&mut target, &indices, &program, &params);
+        square.draw(&mut target, &indices, &program, &params, [1.0, 1.0, 0.0]);
+        for b in bullets.iter() {
+            b.draw(&mut target, &indices, &program, &params, [1.0, 1.0, 1.0]);
+        }
         target.finish().unwrap();
 
         // events
@@ -116,6 +122,14 @@ fn main() {
                             VirtualKeyCode::A => inputs.a = s == ElementState::Pressed,
                             VirtualKeyCode::S => inputs.s = s == ElementState::Pressed,
                             VirtualKeyCode::D => inputs.d = s == ElementState::Pressed,
+                            VirtualKeyCode::Space => bullets.push(Shape::new(
+                                &display,
+                                &vec![[-0.5, 0.5], [0.5, 0.5], [-0.5, -0.5], [0.5, -0.5]],
+                                square.x + square.w,
+                                square.y + square.h / 2.0 - 2.5,
+                                5.0,
+                                5.0,
+                            )),
                             _ => {}
                         },
                         _ => {}
